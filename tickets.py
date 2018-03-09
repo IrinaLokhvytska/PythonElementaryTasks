@@ -1,27 +1,21 @@
 '''Get the lucky tickets by 2 ways'''
 
 def addZero(n):
-    if n < 10:
-        n = '00000' + str(n)
-    elif n >= 10 and n < 100:
-        n = '0000' + str(n)
-    elif n >= 100 and n < 1000:
-        n = '000' + str(n)
-    elif n >= 1000 and n < 10000:
-        n = '00' + str(n)
-    elif n >= 10000 and n < 100000:
-        n = '0' + str(n)
-    elif n >= 100000 and n < 1000000:
-        n = str(n)
-    else:
-        n = False
+    ticketsRange = {
+    '00000': [0, 10],
+    '0000': [10, 100],
+    '000': [100, 1000],
+    '00': [1000, 10000],
+    '0': [10000, 100000],
+    '': [100000, 1000000]
+    }
+    for key, value in ticketsRange.items():
+        if int(n) in range (value[0], value[1]):
+            n = str(n) + key
     return n
 
 def helper(arr):
-    result = 0
-    odd = 0
-    even = 0
-    sum = 0
+    result = odd = even = sum = 0
     for i in arr:
         if int(i) % 2 == 0:
             even += int(i)
@@ -35,16 +29,14 @@ def easyWay(min, max):
     n = int(min)
     result = 0
     while n <= int(max):
-        first = 0
-        second = 0
+        first = second = 0
         n = addZero(n)
-        if (n):
-            for i in list(n[:3]):
-                first += int(i)
-            for i in list(n[3:]):
-                second += int(i)
-            if (first == second):
-                result += 1
+        for i in list(n[:3]):
+            first += int(i)
+        for i in list(n[3:]):
+            second += int(i)
+        if (first == second):
+            result += 1
         n = int(n) + 1
     return result
 
@@ -79,7 +71,7 @@ def checkEmptyValue (value):
         validation = True
     return validation
 
-def checkNumbers (value):
+def checkNumbers(value):
      '''Check that input value can be converted to integer'''
      try:
          int(value)
@@ -87,17 +79,40 @@ def checkNumbers (value):
          return False
      return True
 
+def checkTicketsRange(value):
+    validation = False
+    if int(value) >= 0 and int(value) < 1000000:
+        validation = True
+    return validation
+
 def validation (min, max):
     '''Validate values'''
-    if checkEmptyValue (min) and checkNumbers (min):
-        if checkEmptyValue (max) and checkNumbers (max):
-            if int(max) > int(min):
-                return luckyTickets(min, max)
-            else:
-                print('The max value should be greater than min value')
+    tickets = {'min': min, 'max': max}
+    validation = checkTicketsValues(tickets)
+    if validation['valid'] == 2:
+        if int(max) > int(min):
+            return luckyTickets(min, max)
         else:
-            print('The max value should be a positive integer')
-    else:  print('The min value should be a positive integer')
+            return 'The max value should be greater than min value'
+    else:
+        return validation['msg']
+
+def checkTicketsValues(tickets):
+    valid = 0
+    msg = ''
+    for key, value in tickets.items():
+        if checkEmptyValue(value):
+            if checkNumbers(value):
+                if checkTicketsRange(value):
+                    valid += 1
+                else:
+                    msg += 'The ' + key + ' is not in range [0:1000000]: ' + value + '\n'
+            else:
+                 msg += 'The ' + key + ' is not a positive integer: ' + value + '\n'
+        else:
+            msg += 'The ' + key + ' can not be empty \n'
+    output = {'valid': valid, 'msg': msg}
+    return output
 
 min = input('Enter the min value: ')
 max = input('Enter the max value: ')
