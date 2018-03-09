@@ -16,18 +16,31 @@ def comparisonEnvelopes(a, b, c, d):
 
 def validation (a, b, c, d):
     '''Validate values'''
-    if checkEmptyValue (a) and checkNumbers (a):
-        if checkEmptyValue (b) and checkNumbers (b):
-            if checkEmptyValue (c) and checkNumbers (c):
-                if checkEmptyValue (d) and checkNumbers (d):
-                    return comparisonEnvelopes(a, b, c, d)
-                else:
-                    print('The second side of the second envelope should be a positive integer')
+    envelopes = {
+    'The first side of the first envelope': a,
+    'The second side of the first envelope': b,
+    'The first side of the second envelope': c,
+    'The second side of the second envelope': d
+    }
+    validation = checkEnvelopesValue(envelopes)
+    if validation['valid'] == 4:
+        return comparisonEnvelopes(a, b, c, d)
+    else:
+        return validation['msg']
+
+def checkEnvelopesValue(envelopes):
+    valid = 0
+    msg = ''
+    for key, value in envelopes.items():
+        if checkEmptyValue(value):
+            if checkPositiveNumbers(value):
+                valid += 1
             else:
-                print('The first side of the second envelope should be a positive integer')
+                msg += key + ' is not a positive integer: ' + value + '\n'
         else:
-            print('The second side of the first envelope should be a positive integer')
-    else:  print('The first side of the first envelope should be a positive integer')
+            msg += key + ' can not be empty \n'
+    output = {'valid' : valid, 'msg': msg}
+    return output
 
 def checkEmptyValue (value):
     '''Check that input value isn't empty'''
@@ -36,13 +49,16 @@ def checkEmptyValue (value):
         validation = True
     return validation
 
-def checkNumbers (value):
+def checkPositiveNumbers (value):
      '''Check that input value can be converted to integer'''
+     validation = False
      try:
          int(value)
      except ValueError:
-         return False
-     return True
+         return validation
+     if int(value) > 0:
+         validation = True
+     return validation
 
 a = input('Enter the first side of the first envelope: ')
 b = input('Enter the second side of the first envelope: ')
