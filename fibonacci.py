@@ -24,7 +24,10 @@ def validation (min, max):
     fibonacci = {'min': min, 'max': max}
     validation = checkFibonacciValues(fibonacci)
     if validation['valid'] == 2:
-        return fib(min, max)
+        if int(max) > int(min):
+            return fib(min, max)
+        else:
+            return 'The min value: ' + min + ' can not be greater than max value: ' + max
     else:
         return validation['msg']
 

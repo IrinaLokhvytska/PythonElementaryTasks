@@ -93,7 +93,7 @@ def validation (min, max):
         if int(max) > int(min):
             return luckyTickets(min, max)
         else:
-            return 'The max value should be greater than min value'
+            return 'The max value: ' + max + ' should be greater than min value: ' + min
     else:
         return validation['msg']
 
