@@ -18,23 +18,28 @@ def showChess (width, height, char):
 
 def validation (width, height, char):
     '''Validate values'''
+    chess = {'width': width, 'height': height, 'char': char}
+    validation = checkChessValue(chess)
+    if validation['valid'] == 5:
+        return showChess (width, height, char)
+    else:
+        return validation['msg']
+
+def checkChessValue(chess):
     valid = 0
     msg = ''
-    chess = {'width': width, 'height': height, 'char': char}
     for key, value in chess.items():
         if checkEmptyValue(value):
             if key != 'char':
                 if checkPositiveNumbers(value):
                     valid += 1
                 else:
-                    msg += 'The ' + key + ' of the chess should be a positive integer \n'
+                    msg += 'The ' + key + ' of the chess is not a positive integer: ' + value + '\n'
             valid += 1
         else:
             msg += 'The ' + key + ' of the chess can not be empty \n'
-    if valid == 5:
-        return showChess (width, height, char)
-    else:
-        return msg
+    output = {'valid' : valid, 'msg': msg}
+    return output
 
 def checkEmptyValue (value):
     '''Check that input value isn't empty'''
