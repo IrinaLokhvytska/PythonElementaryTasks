@@ -17,26 +17,32 @@ def checkThatTriangleExists(side1, side2, side3):
 
 def validation (name, side1, side2, side3):
     '''Validate values'''
+    triangle = {'name': name, 'side1': side1, 'side2': side2, 'side3': side3}
+    validation = checkTriangleValues(triangle)
+    if validation['valid'] == 7:
+        if checkThatTriangleExists(int(side1), int(side2), int(side3)):
+            return getSquare (name, int(side1), int(side2), int(side3))
+        else:
+            return 'The triangle ' + name + ' does not exist'
+    else:
+        return validation['msg']
+
+def checkTriangleValues(triangle):
     valid = 0
     msg = ''
-    triangle = {'name': name, 'side1': side1, 'side2': side2, 'side3': side3}
     for key, value in triangle.items():
         if checkEmptyValue(value):
             if key != 'name':
                 if checkPositiveNumbers(value):
                     valid += 1
                 else:
-                    msg += 'The ' + key + ' of the triangle should be a positive integer \n'
+                    msg += 'The ' + key + ' of the triangle is not a positive integer: ' + value + '\n'
             valid += 1
         else:
             msg += 'The ' + key + ' of the triangle can not be empty \n'
-    if valid == 7:
-        if checkThatTriangleExists(int(side1), int(side2), int(side3)):
-            return getSquare (name, int(side1), int(side2), int(side3))
-        else:
-            return 'The triangle ' + name + ' does not exist'
-    else:
-        return msg
+    output = {'valid' : valid, 'msg': msg}
+    return output
+
 
 def checkEmptyValue (value):
     '''Check that input value isn't empty'''
