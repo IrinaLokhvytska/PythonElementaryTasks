@@ -1,14 +1,14 @@
 '''Fibonacci Numbers'''
 
-def fib(min, length):
+def fib(min, max):
     minRange = minFib(int(min))
     a = minRange[0]
     b = minRange[1]
-    result = list()
-    result.append(a)
-    while len(result) < int(length):
+    result = [a]
+    while a < int(max):
         a, b = b, a+b
         result.append(a)
+    result.pop()
     return result
 
 def minFib(min):
@@ -18,12 +18,15 @@ def minFib(min):
         a, b = b, a + b
     return (a, b)
 
-def validation (min, length):
+def validation (min, max):
     '''Validate values'''
-    fibonacci = {'min': min, 'length': length}
+    fibonacci = {'min': min, 'max': max}
     validation = checkFibonacciValues(fibonacci)
     if validation['valid'] == 2:
-        return fib(min, length)
+        if int(max) > int(min):
+            return fib(min, max)
+        else:
+            return 'The min value: ' + min + ' can not be greater than max value: ' + max
     else:
         return validation['msg']
 
@@ -60,5 +63,5 @@ def checkPositiveNumbers (value):
      return validation
 
 min = input('Enter the min value: ')
-length = input('Enter the length value: ')
-print(validation (min, length))
+max = input('Enter the max value: ')
+print(validation (min, max))
