@@ -65,7 +65,7 @@ def complete_dozen(i):
 
 def complete_hundred(i):
     if i == 1:
-        dict_numbers[i].append('sto')
+        dict_numbers[i].append('сто')
     elif i == 2:
         dict_numbers[i].append(simple_number[i][:-1] + 'есте')
     elif i in (3, 4):
@@ -85,14 +85,11 @@ def get_dozen_number(n):
         return get_from_ten_to_twenty(n)
     elif int(n) in range(1, 10):
         return get_simple_number(n)
-    elif int(n) == 0:
-        return ''
     else:
         n = str(int(n))
         return dict_numbers[int(n[0])][1] + ' ' + dict_numbers[int(n[1])][0]
 
 def get_hundred_number(n):
-    print(n)
     if int(n) in range (100, 1000):
         return dict_numbers[int(n[0])][2] + ' ' + get_dozen_number(n[1:])
     elif int(n) in range (10, 99):
@@ -107,10 +104,10 @@ def split_number(n):
     res = list()
     n_without_zero = str(int(n))
     convert_function = ((get_hundred_number, 3), (get_simple_number, 1), (get_dozen_number, 2))
-    while n:
+    while n_without_zero:
         x = int(len(n_without_zero)) % 3
-        res.append(convert_function[x][0](n[0: convert_function[x][1]]))
-        n = n[convert_function[x][1]:]
+        res.append(convert_function[x][0](n_without_zero[0: convert_function[x][1]]))
+        n_without_zero = n_without_zero[convert_function[x][1]:]
     return (res)
 
 def show_result(n):
@@ -126,6 +123,7 @@ def show_result(n):
             if length >= 2:
                 output += ' ' + number_clarification[length] + ' '
                 length -= 1
+              
     return output
 
-print(show_result('10000056'))
+print(show_result('10125'))
