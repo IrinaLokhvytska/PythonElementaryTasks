@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+# -*- coding: utf-8 -*-
 
 dict_numbers = dict()
 simple_number = (
@@ -16,7 +17,7 @@ simple_number = (
 
 
 number_clarification = {
-    2: 'тысяча',
+    2: 'тысяч',
     3: 'миллион',
     4: 'миллиард',
     5: 'триллион',
@@ -40,17 +41,17 @@ def complete_dictionary():
             complete_hundred(i)
 
 def complete_dozen_for_one(i):
-    str = 'надцать'
+    end = 'надцать'
     dozens = list()
     for y in range(10):
         if y == 0:
             dozens.append('десять')
         elif y in (1, 3):
-            dozens.append(simple_number[y] + str)
+            dozens.append(simple_number[y] + end)
         elif y == 2:
-            dozens.append(simple_number[y][:-1] + 'у' + str)
+            dozens.append(simple_number[y][:-1] + 'у' + end)
         else:
-            dozens.append(simple_number[y][:-1] + str)
+            dozens.append(simple_number[y][:-1] + end)
     dict_numbers[i].append(dozens)
 
 def complete_dozen(i):
@@ -119,11 +120,41 @@ def show_result(n):
             length -= 1
             continue
         else:
-            output += i
-            if length >= 2:
-                output += ' ' + number_clarification[length] + ' '
-                length -= 1
+          output += add_clarification(i, length)
+          length -= 1
               
     return output
+    
+def add_clarification(n, l):
+  output = ' '
+  if l == 2:
+     output += check_end_of_thousand(n, l) + ' '
+  if l > 2:
+    output += n + ' ' + check_end_of_string(n, l) +' '
+  return output  
+  
+def check_end_of_thousand(n, l):
+  output = ''
+  ends = {'один': 'одна', 'два': 'две'}
+  helper = {'один': 'а', 'два': 'и', 'три': 'и', 'четыре': 'и'}
+  output = ''
+  if n in ends:
+    output +=  ends[n]
+  else:
+    output +=  n
+  if n in helper:
+    output += ' ' + number_clarification[l] + helper[n] + ' '
+  else:
+    output += ' ' + number_clarification[l] + ' '
+  return output  
 
-print(show_result('10125'))
+def check_end_of_string(n, l):
+  output = ''
+  helper = {'один': '', 'два': 'а', 'три': 'а', 'четыре': 'а'}
+  if n in helper:
+    output += ' ' + number_clarification[l] + helper[n] + ' '
+  else:
+    output += ' ' + number_clarification[l] + 'ов'
+  return output   
+  
+print(show_result('222115125'))
