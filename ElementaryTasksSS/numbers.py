@@ -1,4 +1,3 @@
-
 # -*- coding: utf-8 -*-
 
 dict_numbers = dict()
@@ -156,19 +155,17 @@ def add_clarification(n, l):
   return output  
   
 def check_end_of_thousand(n, l):
-  output = ''
-  ends = {'один': 'одна', 'два': 'две'}
-  helper = {'один': 'а', 'два': 'и', 'три': 'и', 'четыре': 'и'}
-  output = ''
-  if n in ends:
-    output +=  ends[n]
-  else:
-    output +=  n
-  if n in helper:
-    output += ' ' + number_clarification[l] + helper[n] + ' '
-  else:
-    output += ' ' + number_clarification[l] + ' '
-  return output  
+  ends = {
+    'один': ('а', 'одна'), 
+    'два': ('и', 'две'), 
+    'три': ('и', 'три'), 
+    'четыре': ('и', 'четыре')
+    
+  }
+  for k in ends:
+    if k in n:
+      return n.replace(k, ends[k][1]) + ' ' + number_clarification[l] + ends[k][0] + ' '
+  return n + ' ' + number_clarification[l]
 
 def check_end_of_string(n, l):
   output = ''
@@ -179,4 +176,4 @@ def check_end_of_string(n, l):
     output += ' ' + number_clarification[l] + 'ов'
   return output   
   
-print(show_result('450000500000000000000000000000000000'))
+print(show_result('22256'))
