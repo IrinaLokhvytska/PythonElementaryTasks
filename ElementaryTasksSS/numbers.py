@@ -14,7 +14,6 @@ simple_number = (
     'девять'
 )
 
-
 number_clarification = {
     2: 'тысяч',
     3: 'миллион',
@@ -42,34 +41,41 @@ def complete_dictionary():
 def complete_dozen_for_one(i):
     end = 'надцать'
     dozens = list()
+    helper = {
+      0: 'десять',
+      1: simple_number[1] + end,
+      2: simple_number[2][:-1] + 'у' + end,
+      3: simple_number[3] + end
+    }
     for y in range(10):
-        if y == 0:
-            dozens.append('десять')
-        elif y in (1, 3):
-            dozens.append(simple_number[y] + end)
-        elif y == 2:
-            dozens.append(simple_number[y][:-1] + 'у' + end)
-        else:
-            dozens.append(simple_number[y][:-1] + end)
+      if y in helper:
+        dozens.append(helper[y])
+      else:
+        dozens.append(simple_number[y][:-1] + end)
     dict_numbers[i].append(dozens)
 
 def complete_dozen(i):
-    if i == 1:
+    helper = {
+      2: simple_number[2] +'дцать',
+      3: simple_number[3] +'дцать',
+      4: 'сорок'
+    }
+    if i in helper:
+      dict_numbers[i].append(helper[i])
+    elif i == 1:
         complete_dozen_for_one(i)
-    elif i in (2, 3):
-        dict_numbers[i].append(simple_number[i] +'дцать')
-    elif i == 4:
-        dict_numbers[i].append('сорок')
     else:
         dict_numbers[i].append(simple_number[i] + 'десят')
 
 def complete_hundred(i):
-    if i == 1:
-        dict_numbers[i].append('сто')
-    elif i == 2:
-        dict_numbers[i].append(simple_number[i][:-1] + 'есте')
-    elif i in (3, 4):
-        dict_numbers[i].append(simple_number[i] + 'ста')
+    helper = {
+      1: 'сто',
+      2: simple_number[2][:-1] + 'есте',
+      3: simple_number[3] + 'ста',
+      4: simple_number[4] + 'ста'
+    }
+    if i in helper:
+        dict_numbers[i].append(helper[i])
     else:
         dict_numbers[i].append(simple_number[i] + 'сот')
 
@@ -158,4 +164,4 @@ def check_end_of_string(n, l):
     output += ' ' + number_clarification[l] + 'ов'
   return output   
   
-print(show_result('0'))
+print(show_result('455'))
