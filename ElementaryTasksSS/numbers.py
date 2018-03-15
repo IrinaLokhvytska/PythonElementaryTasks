@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
 
+# -*- coding: utf-8 -*-
+
 dict_numbers = dict()
 simple_number = (
     'ноль',
@@ -129,6 +131,8 @@ def split_number(n):
 def show_result(n):
     numbers = split_number(n)
     length = int(len(numbers))
+    if length > 12:
+      return 'The number too big, max lenth - 36'
     output = ''
     for i in numbers:
         if i == '000':
@@ -173,4 +177,4 @@ def check_end_of_string(n, l):
     output += ' ' + number_clarification[l] + 'ов'
   return output   
   
-print(show_result('4500005'))
+print(show_result('450000500000000000000000000000000000'))
