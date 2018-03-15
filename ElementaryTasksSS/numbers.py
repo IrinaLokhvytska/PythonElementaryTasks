@@ -1,5 +1,4 @@
 # -*- coding: utf-8 -*-
-# -*- coding: utf-8 -*-
 
 dict_numbers = dict()
 simple_number = (
@@ -129,8 +128,10 @@ def add_clarification(n, l):
   output = ' '
   if l == 2:
      output += check_end_of_thousand(n, l) + ' '
-  if l > 2:
+  elif l > 2:
     output += n + ' ' + check_end_of_string(n, l) +' '
+  else:
+    output += n
   return output  
   
 def check_end_of_thousand(n, l):
@@ -157,4 +158,4 @@ def check_end_of_string(n, l):
     output += ' ' + number_clarification[l] + 'ов'
   return output   
   
-print(show_result('222115125'))
+print(show_result('0'))
