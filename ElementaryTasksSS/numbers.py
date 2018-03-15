@@ -121,8 +121,9 @@ def split_number(n):
     convert_function = ((get_hundred_number, 3), (get_simple_number, 1), (get_dozen_number, 2))
     while n_without_zero:
         x = int(len(n_without_zero)) % 3
-        res.append(convert_function[x][0](n_without_zero[0: convert_function[x][1]]))
-        n_without_zero = n_without_zero[convert_function[x][1]:]
+        slice_num = convert_function[x][1]
+        res.append(convert_function[x][0](n_without_zero[0: slice_num]))
+        n_without_zero = n_without_zero[slice_num:]
     return (res)
 
 def show_result(n):
@@ -136,11 +137,10 @@ def show_result(n):
         else:
           output += add_clarification(i, length)
           length -= 1
-              
     return output
     
 def add_clarification(n, l):
-  output = ' '
+  output = ''
   if l == 2:
      output += check_end_of_thousand(n, l) + ' '
   elif l > 2:
