@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 
 # -*- coding: utf-8 -*-
 
@@ -89,8 +88,11 @@ def get_from_ten_to_twenty(n):
     return dict_numbers[first][1][second]
 
 def get_dozen_dict(n):
-    n = str(int(n))
-    return dict_numbers[int(n[0])][1] + ' ' + dict_numbers[int(n[1])][0]
+    first, second = map(int, n)
+    if first and second != 0:
+      return dict_numbers[first][1] + ' ' + dict_numbers[second][0]
+    else:
+      return dict_numbers[first][1]
 
 def get_dozen_number(n):
     num_range = {
