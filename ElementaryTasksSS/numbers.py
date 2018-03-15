@@ -25,7 +25,28 @@ number_clarification = {
     9: 'септиллион',
     10: 'октиллион',
     11: 'нониллион',
-    12: 'дециллион'
+    12: 'дециллион',
+    13: 'ундециллион',
+    14: 'додециллион',
+    15: 'тредециллион',
+    16: 'кваттуордециллион',
+    17: 'квиндециллион',
+    18: 'cедециллион',
+    19: 'септдециллион',
+    20: 'дуодевигинтиллион',
+    21: 'ундевигинтиллион',
+    22: 'вигинтиллион',
+    23: 'анвигинтиллион',
+    24: 'дуовигинтиллион',
+    25: 'тревигинтиллион',
+    26: 'кватторвигинтиллион',
+    27: 'квинвигинтиллион',
+    28: 'сексвигинтиллион',
+    29: 'септемвигинтиллион',
+    30: 'октовигинтиллион',
+    31: 'новемвигинтиллион',
+    32: 'тригинтиллион',
+    33: 'антригинтиллион'
     }
 
 def complete_dictionary():
@@ -44,7 +65,7 @@ def complete_dozen_for_one(i):
     helper = {
       0: 'десять',
       1: simple_number[1] + end,
-      2: simple_number[2][:-1] + 'у' + end,
+      2: simple_number[2][:-1] + 'е' + end,
       3: simple_number[3] + end
     }
     for y in range(10):
@@ -58,7 +79,8 @@ def complete_dozen(i):
     helper = {
       2: simple_number[2] +'дцать',
       3: simple_number[3] +'дцать',
-      4: 'сорок'
+      4: 'сорок',
+      9: simple_number[9][:-2] + 'носто'
     }
     if i in helper:
       dict_numbers[i].append(helper[i])
@@ -70,7 +92,7 @@ def complete_dozen(i):
 def complete_hundred(i):
     helper = {
       1: 'сто',
-      2: simple_number[2][:-1] + 'есте',
+      2: simple_number[2][:-1] + 'ести',
       3: simple_number[3] + 'ста',
       4: simple_number[4] + 'ста'
     }
@@ -132,8 +154,8 @@ def split_number(n):
 def show_result(n):
     numbers = split_number(n)
     length = int(len(numbers))
-    if length > 12:
-      return 'The number too big, max lenth - 36'
+    if length > 33:
+      return 'The number too big'
     output = ''
     for i in numbers:
         if i == '000':
@@ -156,24 +178,22 @@ def add_clarification(n, l):
   
 def check_end_of_thousand(n, l):
   ends = {
-    'один': ('а', 'одна'), 
-    'два': ('и', 'две'), 
-    'три': ('и', 'три'), 
-    'четыре': ('и', 'четыре')
+    'один': ('а', 'одна', 4), 
+    'два': ('и', 'две', 3), 
+    'три': ('и', 'три', 3), 
+    'четыре': ('и', 'четыре', 6)
     
   }
   for k in ends:
-    if k in n:
-      return n.replace(k, ends[k][1]) + ' ' + number_clarification[l] + ends[k][0] + ' '
+    if k in n.split(' ')[-1:][0]:
+      return n[:-ends[k][2]] + ends[k][1] + ' ' + number_clarification[l] + ends[k][0] 
   return n + ' ' + number_clarification[l]
 
 def check_end_of_string(n, l):
-  output = ''
-  helper = {'один': '', 'два': 'а', 'три': 'а', 'четыре': 'а'}
-  if n in helper:
-    output += ' ' + number_clarification[l] + helper[n] + ' '
-  else:
-    output += ' ' + number_clarification[l] + 'ов'
-  return output   
+  ends = {'один': '', 'два': 'а', 'три': 'а', 'четыре': 'а'}
+  for k in ends:
+    if k in n.split(' ')[-1:][0]:
+      return number_clarification[l] + ends[k] 
+  return number_clarification[l] + 'ов'
   
-print(show_result('22256'))
+print(show_result('1157895698741238155545545000005'))
