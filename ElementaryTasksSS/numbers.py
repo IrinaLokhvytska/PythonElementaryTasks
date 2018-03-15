@@ -86,24 +86,33 @@ def get_from_ten_to_twenty(n):
     first, second = map(int, n)
     return dict_numbers[first][1][second]
 
+def get_dozen_dict(n):
+    n = str(int(n))
+    return dict_numbers[int(n[0])][1] + ' ' + dict_numbers[int(n[1])][0]
+
 def get_dozen_number(n):
-    if int(n) in range (10, 20):
-        return get_from_ten_to_twenty(n)
-    elif int(n) in range(1, 10):
-        return get_simple_number(n)
-    else:
-        n = str(int(n))
-        return dict_numbers[int(n[0])][1] + ' ' + dict_numbers[int(n[1])][0]
+    num_range = {
+      get_simple_number: [1, 10], 
+      get_from_ten_to_twenty: [10, 20],
+      get_dozen_dict: [20, 100]
+    }
+    for key, value in num_range.items():
+      if int(n) in range (value[0], value[1]):
+        return  key(n)
+    return ''
+
+def get_hundread_dict(n):
+    return dict_numbers[int(n[0])][2] + ' ' + get_dozen_number(n[1:])
 
 def get_hundred_number(n):
-    if int(n) in range (100, 1000):
-        return dict_numbers[int(n[0])][2] + ' ' + get_dozen_number(n[1:])
-    elif int(n) in range (10, 99):
-        return get_dozen_number(n)
-    elif int(n) == 0:
-        return '000'
-    else:
-        return get_simple_number(n)
+    num_range = {
+      get_simple_number: [1, 10], 
+      get_dozen_number: [10, 100], 
+      get_hundread_dict: [100, 1000]}
+    for key, value in num_range.items():
+      if int(n) in range (value[0], value[1]):
+        return  key(n)
+    return '000'
 
 def split_number(n):
     complete_dictionary()
@@ -164,4 +173,4 @@ def check_end_of_string(n, l):
     output += ' ' + number_clarification[l] + 'ов'
   return output   
   
-print(show_result('455'))
+print(show_result('4500005'))
