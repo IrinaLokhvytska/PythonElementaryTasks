@@ -5,10 +5,13 @@ html = input()
 response = requests.get(html)
 if response.status_code == 200:
   content = response.text
-  urls = re.findall(r'''<a\s.*?href=["']([\w\d-].+?)["'].?>''', content)
+  urls = re.findall(r'''<a\s.*?href=['"]([\w\d-].+?)['"?]''', content)
 domains = set()
 for url in urls:
-    domain = url.split("//")[-1].split("/")[0].split('?')[0].split(':')[0]
+    if "//" in url:
+        domain = url.split("//")[1].split("/")[0].split('?')[0].split(':')[0]
+    else:
+        domain = url.split("//")[-1].split("/")[0].split('?')[0].split(':')[0]
     domains.add(domain)
 output = list(domains)
 output.sort()
